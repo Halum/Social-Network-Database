@@ -1,5 +1,4 @@
 application/
 system/
 user_guide/
-*/cache/*
-*/cache/!index.html
+cache/
