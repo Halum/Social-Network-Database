@@ -1,8 +1,12 @@
-application/
 !application/models/*
-system/
-user_guide/
-cache/
+
+application/*
+
+system/*
+
+user_guide/*
+
+cache/*
 
 !htaccess
 
