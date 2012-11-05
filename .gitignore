@@ -2,6 +2,7 @@ application/*
 !application/models/
 !application/controllers/
 !application/views/
+!application/config/
 
 system/*
 
