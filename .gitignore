@@ -1,5 +1,5 @@
-*/config/development
-*/logs/log-*.php
-*/logs/!index.html
+application/
+system/
+user_guide/
 */cache/*
 */cache/!index.html
