@@ -1,5 +1,8 @@
 application/
+!application/models/*
 system/
 user_guide/
 cache/
-!models/
+
+!htaccess
+
