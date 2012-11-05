@@ -1,0 +1,13 @@
+application/*
+!application/models/
+!application/controllers/
+!application/views/
+
+system/*
+
+user_guide/*
+
+cache/*
+
+!.htaccess
+
