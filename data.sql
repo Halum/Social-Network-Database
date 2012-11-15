@@ -46,6 +46,24 @@ CREATE TABLE `friendship` (
 
 
 
+DROP TABLE IF EXISTS message;
+
+CREATE TABLE `message` (
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id_from` int(11) NOT NULL,
+  `user_id_to` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `time` date NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `message_ibfk_1` (`user_id_from`),
+  KEY `message_ibfk_2` (`user_id_to`),
+  CONSTRAINT `message_ibfk_1` FOREIGN KEY (`user_id_from`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `message_ibfk_2` FOREIGN KEY (`user_id_to`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 DROP TABLE IF EXISTS post;
 
 CREATE TABLE `post` (
@@ -55,7 +73,7 @@ CREATE TABLE `post` (
   `content` text NOT NULL,
   `type` enum('status','wallpost','image','video','comment') DEFAULT NULL,
   `time` date NOT NULL,
-  PRIMARY KEY (`post_id`,`user_id_posted`),
+  PRIMARY KEY (`post_id`),
   KEY `post_ibfk_1` (`user_id_posted`),
   KEY `post_ibfk_2` (`user_id_got_post`),
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id_posted`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
