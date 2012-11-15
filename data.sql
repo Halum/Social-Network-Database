@@ -1,5 +1,37 @@
 SET FOREIGN_KEY_CHECKS=0;
 
+DROP TABLE IF EXISTS comment;
+
+CREATE TABLE `comment` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `time` date NOT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `comment_ibfk_1` (`post_id`),
+  KEY `comment_ibfk_2` (`user_id`),
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+DROP TABLE IF EXISTS friend_request;
+
+CREATE TABLE `friend_request` (
+  `user_id_from` int(11) NOT NULL,
+  `user_id_to` int(11) NOT NULL,
+  PRIMARY KEY (`user_id_from`,`user_id_to`),
+  KEY `friendship_request_ibfk_2` (`user_id_to`),
+  CONSTRAINT `friendship_request_ibfk_1` FOREIGN KEY (`user_id_from`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `friendship_request_ibfk_2` FOREIGN KEY (`user_id_to`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 DROP TABLE IF EXISTS friendship;
 
 CREATE TABLE `friendship` (
@@ -14,14 +46,54 @@ CREATE TABLE `friendship` (
 
 
 
+DROP TABLE IF EXISTS message;
+
+CREATE TABLE `message` (
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id_from` int(11) NOT NULL,
+  `user_id_to` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `time` date NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `message_ibfk_1` (`user_id_from`),
+  KEY `message_ibfk_2` (`user_id_to`),
+  CONSTRAINT `message_ibfk_1` FOREIGN KEY (`user_id_from`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `message_ibfk_2` FOREIGN KEY (`user_id_to`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+DROP TABLE IF EXISTS post;
+
+CREATE TABLE `post` (
+  `post_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id_posted` int(11) NOT NULL,
+  `user_id_got_post` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `type` enum('status','wallpost','image','video','comment') DEFAULT NULL,
+  `time` date NOT NULL,
+  PRIMARY KEY (`post_id`),
+  KEY `post_ibfk_1` (`user_id_posted`),
+  KEY `post_ibfk_2` (`user_id_got_post`),
+  CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id_posted`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `post_ibfk_2` FOREIGN KEY (`user_id_got_post`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) NOT NULL,
   `name` varchar(128) NOT NULL,
   `date_of_birth` date NOT NULL,
   `password` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
+  `active` enum('yes','no') NOT NULL DEFAULT 'no',
+  `activation_key` text NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
