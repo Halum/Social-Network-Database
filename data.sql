@@ -92,12 +92,16 @@ CREATE TABLE `user` (
   `date_of_birth` date NOT NULL,
   `password` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
+  `sex` enum('male','female') NOT NULL,
   `active` enum('yes','no') NOT NULL DEFAULT 'no',
   `activation_key` text NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `user_name` (`user_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
+INSERT INTO user VALUES("26","Halum","Sajjad Hossain","0000-00-00","7110eda4d09e062aa5e4a390b0a572ac0d2c0220","my.lost.word@gmail.com","male","yes","19995855");
+INSERT INTO user VALUES("27","A","Sajjad Hossain","0000-00-00","40bd001563085fc35165329ea1ff5c5ecbdbbeef","my.lost.word@gmail.comm","male","yes","57330310");
 
 
 
